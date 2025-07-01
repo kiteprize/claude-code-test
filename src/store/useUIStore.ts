@@ -10,8 +10,8 @@ interface UIState {
   // Modal state
   modalOpen: boolean
   modalType: string | null
-  modalData: any
-  openModal: (type: string, data?: any) => void
+  modalData: unknown
+  openModal: (type: string, data?: unknown) => void
   closeModal: () => void
 
   // Loading states
@@ -59,7 +59,7 @@ export const useUIStore = create<UIState>()(
       // Toasts
       toasts: [],
       addToast: (toast) => {
-        const id = Math.random().toString(36).substr(2, 9)
+        const id = Math.random().toString(36).substring(2, 11)
         const newToast = { ...toast, id }
         set((state) => ({ toasts: [...state.toasts, newToast] }), false, 'addToast')
         

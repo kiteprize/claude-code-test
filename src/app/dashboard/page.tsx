@@ -2,21 +2,70 @@
 
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useUIStore } from '@/store'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { 
+  ChartBarIcon, 
+  EyeIcon, 
+  HeartIcon, 
+  DocumentTextIcon,
+  SunIcon,
+  MoonIcon,
+  ArrowRightOnRectangleIcon,
+  UserCircleIcon,
+  EnvelopeIcon,
+  CalendarIcon,
+  ClockIcon
+} from '@heroicons/react/24/outline'
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth()
+  const { addToast, darkMode, toggleDarkMode } = useUIStore()
   const router = useRouter()
+  const [stats, setStats] = useState({
+    posts: 0,
+    views: 0,
+    likes: 0,
+  })
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/auth/login')
+    } else if (user) {
+      // Simulate fetching stats
+      setStats({
+        posts: Math.floor(Math.random() * 50),
+        views: Math.floor(Math.random() * 1000),
+        likes: Math.floor(Math.random() * 200),
+      })
     }
   }, [user, loading, router])
 
   const handleSignOut = async () => {
     await signOut()
+    addToast({
+      type: 'success',
+      title: '로그아웃 완료',
+      message: '성공적으로 로그아웃되었습니다.',
+    })
     router.push('/')
+  }
+
+  const handleTestToast = (type: 'success' | 'error' | 'warning' | 'info') => {
+    const messages = {
+      success: { title: '성공!', message: '작업이 성공적으로 완료되었습니다.' },
+      error: { title: '오류!', message: '작업 중 오류가 발생했습니다.' },
+      warning: { title: '경고!', message: '주의가 필요한 상황입니다.' },
+      info: { title: '정보', message: '새로운 정보가 있습니다.' },
+    }
+    
+    addToast({
+      type,
+      title: messages[type].title,
+      message: messages[type].message,
+    })
   }
 
   if (loading) {
@@ -32,121 +81,186 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow">
+    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Navigation */}
+      <nav className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">대시보드</h1>
+              <h1 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                대시보드
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700">안녕하세요, {user.email}님!</span>
-              <button
-                onClick={handleSignOut}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleDarkMode}
+                className={darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
               >
+                {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+              </Button>
+              <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                안녕하세요, {user.email}님!
+              </span>
+              <Button variant="destructive" onClick={handleSignOut} className="flex items-center gap-2">
+                <ArrowRightOnRectangleIcon className="h-4 w-4" />
                 로그아웃
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 p-6">
-            <div className="h-full flex flex-col items-center justify-center">
-              <div className="text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                >
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">
-                  대시보드 영역
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  여기에 앱의 주요 기능들이 표시됩니다.
-                </p>
-              </div>
-              
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-4xl">
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="p-5">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            사용자 프로필
-                          </dt>
-                          <dd className="text-lg font-medium text-gray-900">
-                            {user.user_metadata?.full_name || '이름 없음'}
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="p-5">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            이메일
-                          </dt>
-                          <dd className="text-lg font-medium text-gray-900">
-                            {user.email}
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="p-5">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            가입일
-                          </dt>
-                          <dd className="text-lg font-medium text-gray-900">
-                            {new Date(user.created_at).toLocaleDateString('ko-KR')}
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="px-4 py-6 sm:px-0 space-y-6">
+          {/* Welcome Section */}
+          <div className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className="text-3xl font-bold">
+              환영합니다, {user.user_metadata?.full_name || user.email?.split('@')[0]}님!
+            </h2>
+            <p className={`mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              여기서 계정 정보와 활동 통계를 확인할 수 있습니다.
+            </p>
           </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">게시물</CardTitle>
+                <DocumentTextIcon className="h-4 w-4 text-blue-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.posts}</div>
+                <p className="text-xs text-muted-foreground">
+                  +12% from last month
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">조회수</CardTitle>
+                <EyeIcon className="h-4 w-4 text-green-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.views.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">
+                  +5% from last month
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">좋아요</CardTitle>
+                <HeartIcon className="h-4 w-4 text-red-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.likes}</div>
+                <p className="text-xs text-muted-foreground">
+                  +8% from last month
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* User Info Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <UserCircleIcon className="h-5 w-5" />
+                사용자 정보
+              </CardTitle>
+              <CardDescription>
+                계정 정보와 프로필 설정을 확인하세요.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <UserCircleIcon className="h-5 w-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm font-medium">이름</p>
+                    <p className="text-sm text-gray-600">
+                      {user.user_metadata?.full_name || '이름 없음'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm font-medium">이메일</p>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CalendarIcon className="h-5 w-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm font-medium">가입일</p>
+                    <p className="text-sm text-gray-600">
+                      {new Date(user.created_at).toLocaleDateString('ko-KR')}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <ClockIcon className="h-5 w-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm font-medium">마지막 로그인</p>
+                    <p className="text-sm text-gray-600">
+                      {user.last_sign_in_at 
+                        ? new Date(user.last_sign_in_at).toLocaleString('ko-KR') 
+                        : '정보 없음'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Toast Test Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ChartBarIcon className="h-5 w-5" />
+                토스트 알림 테스트
+              </CardTitle>
+              <CardDescription>
+                다양한 타입의 알림을 테스트해보세요.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <Button
+                  onClick={() => handleTestToast('success')}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  성공
+                </Button>
+                <Button
+                  onClick={() => handleTestToast('error')}
+                  variant="destructive"
+                >
+                  오류
+                </Button>
+                <Button
+                  onClick={() => handleTestToast('warning')}
+                  className="bg-yellow-600 hover:bg-yellow-700"
+                >
+                  경고
+                </Button>
+                <Button
+                  onClick={() => handleTestToast('info')}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  정보
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

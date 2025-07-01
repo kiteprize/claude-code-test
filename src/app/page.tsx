@@ -2,101 +2,171 @@
 
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 
 export default function Home() {
   const { user, loading } = useAuth()
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Full-Stack Boilerplate&nbsp;
-          <code className="font-mono font-bold">Next.js + tRPC + Supabase Auth + Zustand</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          {loading ? (
-            <div className="animate-pulse">로딩 중...</div>
-          ) : user ? (
-            <Link
-              href="/dashboard"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-            >
-              대시보드
-            </Link>
-          ) : (
-            <div className="flex gap-4">
-              <Link
-                href="/auth/login"
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                로그인
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      {/* Navigation */}
+      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold text-gray-900">
+                Full-Stack Boilerplate
+              </h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              {loading ? (
+                <div className="animate-pulse text-sm text-gray-500">로딩 중...</div>
+              ) : user ? (
+                <Link href="/dashboard">
+                  <Button>대시보드</Button>
+                </Link>
+              ) : (
+                <div className="flex gap-3">
+                  <Link href="/auth/login">
+                    <Button variant="outline">로그인</Button>
+                  </Link>
+                  <Link href="/auth/signup">
+                    <Button>회원가입</Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900">
+              Modern
+              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"> Full-Stack </span>
+              Boilerplate
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Next.js, tRPC, Supabase Auth, Zustand를 사용한 현대적인 풀스택 애플리케이션 템플릿입니다.
+              빠르게 프로젝트를 시작하고 확장 가능한 애플리케이션을 구축하세요.
+            </p>
+          </div>
+
+          {!user && (
+            <div className="flex justify-center gap-4">
+              <Link href="/auth/signup">
+                <Button size="lg">시작하기</Button>
               </Link>
-              <Link
-                href="/auth/signup"
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                회원가입
+              <Link href="/auth/login">
+                <Button variant="outline" size="lg">로그인</Button>
               </Link>
             </div>
           )}
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <h1 className="text-4xl font-bold text-center">
-          Welcome to Full-Stack Boilerplate
-        </h1>
-      </div>
+        {/* Features Grid */}
+        <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">⚡</span>
+                Next.js 15
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                App Router, TypeScript, Tailwind CSS가 포함된 최신 React 프레임워크
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className="mb-3 text-2xl font-semibold">
-            Next.js{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            React framework with App Router and TypeScript support.
-          </p>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">🔐</span>
+                Supabase Auth
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                이메일/패스워드 및 소셜 로그인을 지원하는 완전한 인증 시스템
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">🛡️</span>
+                tRPC
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                End-to-end 타입 안전성을 보장하는 API 레이어
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">💾</span>
+                Supabase
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                PostgreSQL 데이터베이스와 실시간 기능을 제공하는 백엔드 서비스
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">🐻</span>
+                Zustand
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                가볍고 직관적인 상태 관리 라이브러리
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-2xl">🚀</span>
+                CI/CD
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                GitHub Actions과 Vercel을 통한 자동 배포 파이프라인
+              </CardDescription>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className="mb-3 text-2xl font-semibold">
-            tRPC{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            End-to-end typesafe APIs made easy.
-          </p>
-        </div>
-
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className="mb-3 text-2xl font-semibold">
-            NextAuth{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Authentication for Next.js with multiple providers.
-          </p>
-        </div>
-
-        <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-          <h2 className="mb-3 text-2xl font-semibold">
-            Prisma + Supabase{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50 text-balance">
-            Database ORM with PostgreSQL hosted on Supabase.
-          </p>
-        </div>
-      </div>
-    </main>
+        {/* Footer */}
+        <footer className="mt-24 border-t border-gray-200 pt-12 pb-8">
+          <div className="text-center text-gray-600">
+            <p className="text-sm">
+              Built with ❤️ using modern web technologies.
+            </p>
+            <p className="text-xs mt-2">
+              Next.js • tRPC • Supabase • Zustand • Tailwind CSS
+            </p>
+          </div>
+        </footer>
+      </main>
+    </div>
   )
 }

@@ -69,7 +69,7 @@ const initialState = {
 export const usePostStore = create<PostState>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         ...initialState,
         
         // Posts actions
@@ -94,8 +94,8 @@ export const usePostStore = create<PostState>()(
         // Pagination actions
         setCurrentPage: (page) => set({ currentPage: page }, false, 'setCurrentPage'),
         setTotalPages: (total) => set({ totalPages: total }, false, 'setTotalPages'),
-        setHasNextPage: (hasNext) => set({ hasNextPage }, false, 'setHasNextPage'),
-        setHasPreviousPage: (hasPrev) => set({ hasPreviousPage: hasPrev }, false, 'setHasPreviousPage'),
+        setHasNextPage: (hasNextPage) => set({ hasNextPage }, false, 'setHasNextPage'),
+        setHasPreviousPage: (hasPreviousPage) => set({ hasPreviousPage }, false, 'setHasPreviousPage'),
         
         // Filter actions
         setSearchQuery: (query) => set({ searchQuery: query, currentPage: 1 }, false, 'setSearchQuery'),

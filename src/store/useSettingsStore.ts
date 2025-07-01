@@ -57,7 +57,7 @@ const defaultPreferences: UserPreferences = {
 export const useSettingsStore = create<SettingsState>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         ...defaultPreferences,
         
         setLanguage: (language) => {

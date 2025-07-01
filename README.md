@@ -1,14 +1,14 @@
 # Full-Stack Boilerplate
 
-Next.js + tRPC + NextAuth + Prisma + Supabase + Zustand를 사용한 현대적인 풀스택 보일러플레이트입니다.
+Next.js + tRPC + Supabase Auth + Zustand를 사용한 현대적인 풀스택 보일러플레이트입니다.
 
 ## 🛠️ 기술 스택
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS
 - **API**: tRPC (End-to-end typesafe APIs)
-- **Authentication**: NextAuth.js
-- **Database**: Prisma ORM + Supabase PostgreSQL
+- **Authentication**: Supabase Auth
+- **Database**: Supabase PostgreSQL
 - **State Management**: Zustand
 - **Deployment**: Vercel
 - **CI/CD**: GitHub Actions
@@ -109,12 +109,40 @@ npx prisma studio
 - ✅ TypeScript 지원
 - ✅ Tailwind CSS 스타일링
 - ✅ tRPC를 통한 타입 안전한 API
-- ✅ NextAuth.js 인증 시스템
-- ✅ Prisma + Supabase 데이터베이스
+- ✅ Supabase Auth 인증 시스템
+- ✅ Supabase PostgreSQL 데이터베이스
 - ✅ Zustand 상태 관리
-- ✅ ESLint + Prettier 코드 포맷팅
+- ✅ 다크 모드 지원
+- ✅ Toast 알림 시스템
+- ✅ ESLint + TypeScript 린팅
 - ✅ GitHub Actions CI/CD
 - ✅ Vercel 배포 설정
+
+## 🚀 배포하기
+
+### GitHub Actions CI/CD
+
+프로젝트는 GitHub Actions를 통한 자동 CI/CD 파이프라인을 포함합니다:
+
+- **린트 및 테스트**: ESLint, TypeScript 타입 체크, 빌드 테스트
+- **보안 스캔**: npm audit, CodeQL 분석
+- **프리뷰 배포**: Pull Request 시 Vercel 프리뷰 배포
+- **프로덕션 배포**: main 브랜치 푸시 시 자동 배포
+
+### Vercel 배포 설정
+
+1. [Vercel](https://vercel.com)에 GitHub 저장소 연결
+2. 환경 변수 설정:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `NEXT_PUBLIC_APP_URL`
+
+3. GitHub Secrets 설정 (GitHub Actions용):
+   - `VERCEL_TOKEN`: Vercel 토큰
+   - `VERCEL_ORG_ID`: Vercel 조직 ID
+   - `VERCEL_PROJECT_ID`: Vercel 프로젝트 ID
+   - `VERCEL_DOMAIN`: 배포 도메인
 
 ## 📚 문서
 
