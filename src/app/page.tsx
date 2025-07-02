@@ -9,19 +9,19 @@ export default function Home() {
   const { user, loading } = useAuth()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-background to-purple-50">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <nav className="bg-background/80 backdrop-blur-md border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-foreground">
                 Full-Stack Boilerplate
               </h1>
             </div>
             <div className="flex items-center space-x-4">
               {loading ? (
-                <div className="animate-pulse text-sm text-gray-500">로딩 중...</div>
+                <div className="animate-pulse text-sm text-muted-foreground">로딩 중...</div>
               ) : user ? (
                 <Link href="/dashboard">
                   <Button>대시보드</Button>
@@ -45,12 +45,12 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center space-y-8">
           <div className="space-y-4">
-            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900">
+            <h1 className="text-4xl sm:text-6xl font-bold text-foreground">
               Modern
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"> Full-Stack </span>
+              <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent"> Full-Stack </span>
               Boilerplate
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Next.js, tRPC, Supabase Auth, Zustand를 사용한 현대적인 풀스택 애플리케이션 템플릿입니다.
               빠르게 프로젝트를 시작하고 확장 가능한 애플리케이션을 구축하세요.
             </p>
@@ -156,8 +156,8 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-24 border-t border-gray-200 pt-12 pb-8">
-          <div className="text-center text-gray-600">
+        <footer className="mt-24 border-t pt-12 pb-8">
+          <div className="text-center text-muted-foreground">
             <p className="text-sm">
               Built with ❤️ using modern web technologies.
             </p>

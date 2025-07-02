@@ -81,13 +81,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
       {/* Navigation */}
-      <nav className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b`}>
+      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className="text-xl font-semibold text-foreground">
                 대시보드
               </h1>
             </div>
@@ -96,11 +96,10 @@ export default function DashboardPage() {
                 variant="ghost"
                 size="icon"
                 onClick={toggleDarkMode}
-                className={darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
               >
                 {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
               </Button>
-              <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <span className="text-sm text-muted-foreground">
                 안녕하세요, {user.email}님!
               </span>
               <Button variant="destructive" onClick={handleSignOut} className="flex items-center gap-2">
@@ -115,11 +114,11 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0 space-y-6">
           {/* Welcome Section */}
-          <div className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            <h2 className="text-3xl font-bold">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground">
               환영합니다, {user.user_metadata?.full_name || user.email?.split('@')[0]}님!
             </h2>
-            <p className={`mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className="mt-2 text-muted-foreground">
               여기서 계정 정보와 활동 통계를 확인할 수 있습니다.
             </p>
           </div>
@@ -180,37 +179,37 @@ export default function DashboardPage() {
             <CardContent className="grid gap-6 md:grid-cols-2">
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <UserCircleIcon className="h-5 w-5 text-gray-400" />
+                  <UserCircleIcon className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">이름</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       {user.user_metadata?.full_name || '이름 없음'}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                  <EnvelopeIcon className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">이메일</p>
-                    <p className="text-sm text-gray-600">{user.email}</p>
+                    <p className="text-sm text-muted-foreground">{user.email}</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CalendarIcon className="h-5 w-5 text-gray-400" />
+                  <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">가입일</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       {new Date(user.created_at).toLocaleDateString('ko-KR')}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <ClockIcon className="h-5 w-5 text-gray-400" />
+                  <ClockIcon className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">마지막 로그인</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       {user.last_sign_in_at 
                         ? new Date(user.last_sign_in_at).toLocaleString('ko-KR') 
                         : '정보 없음'}
