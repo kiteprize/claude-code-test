@@ -26,29 +26,22 @@ npm install
 `.env.local` 파일을 생성하고 다음 변수들을 설정하세요:
 
 ```env
-# Database (Supabase)
-DATABASE_URL="postgresql://username:password@db.supabase.co:5432/postgres"
-DIRECT_URL="postgresql://username:password@db.supabase.co:5432/postgres"
+# Supabase 설정
+NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 
-# NextAuth
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
-
-# OAuth Providers (선택사항)
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-GITHUB_ID="your-github-client-id"
-GITHUB_SECRET="your-github-client-secret"
+# 앱 설정
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
 ### 3. 데이터베이스 설정
 
-```bash
-# Prisma 마이그레이션 실행
-npx prisma migrate dev
+Supabase 프로젝트를 생성하고 환경 변수를 설정한 후, 데이터베이스 스키마를 적용하세요:
 
-# Prisma 클라이언트 생성
-npx prisma generate
+```bash
+# Supabase 대시보드에서 SQL Editor를 사용하여 database/schema.sql 파일 실행
+# 또는 docs/supabase-setup.md 가이드를 참조하세요
 ```
 
 ### 4. 개발 서버 실행
@@ -96,11 +89,8 @@ npm run lint
 # 타입 검사
 npm run type-check
 
-# 데이터베이스 마이그레이션
-npx prisma migrate dev
-
-# Prisma Studio 실행
-npx prisma studio
+# Supabase 타입 생성 (선택사항)
+npx supabase gen types typescript --project-id your-project-id > src/types/database.types.ts
 ```
 
 ## 🎯 주요 기능
@@ -148,10 +138,9 @@ npx prisma studio
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [tRPC Documentation](https://trpc.io/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org/)
-- [Prisma Documentation](https://www.prisma.io/docs)
 - [Supabase Documentation](https://supabase.com/docs)
 - [Zustand Documentation](https://zustand-demo.pmnd.rs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 ## 🤝 기여하기
 
